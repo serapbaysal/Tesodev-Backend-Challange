@@ -4,7 +4,7 @@ const Address = require("../models/AddressModel");
 
 
 let createdCostumer = ["Serap", "s.hotmail.com", "24.03.2021", "28.04.2021", "shkdf", "Ankara", "Turkey", "45"];
-exports.Create = async (req, res, createdCostumer) => {
+exports.Create = async (req, res) => {
     const { Name, Email, UpdatedAt, CreatedAt, AddressLine, City, Country, CityCode } = req.body;
 
     try {

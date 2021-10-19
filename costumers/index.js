@@ -20,10 +20,6 @@ app.use(express.json())
 
 const costumer = require("./routes/CostumerRoute")
 
-/* app.use("/", (req, res) => {
-    return res.status(200).json({"msg":"Hello from costumers"});
-
-})  */
 
 app.use("/", costumer);
 
