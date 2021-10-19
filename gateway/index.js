@@ -3,8 +3,7 @@ const express = require("express");
 const dotenv = require("dotenv");
 const cors = require("cors");
 const proxy = require("express-http-proxy");    // !!!!!
-
-
+var http = require('http')
 
 
 // load vars
@@ -25,3 +24,4 @@ app.use("/costumers", proxy("http://localhost:5002"));
 app.listen(PORT, () => {
     console.log(`Server at ${PORT}`);
 })
+

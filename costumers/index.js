@@ -1,7 +1,8 @@
 // required packages
 const express = require("express");
 const dotenv = require("dotenv");
-
+const connectDB = require("./database/db");
+const cors = require("cors");
 
 
 
@@ -11,12 +12,20 @@ dotenv.config({ path: "./.env" });
 const PORT = process.env.PORT;
 
 
-const app = express();
+connectDB();
 
-app.use("/", (req, res) => {
+const app = express();
+app.use(cors());
+app.use(express.json())
+
+const costumer = require("./routes/CostumerRoute")
+
+/* app.use("/", (req, res) => {
     return res.status(200).json({"msg":"Hello from costumers"});
 
-})
+})  */
+
+app.use("/", costumer);
 
 app.listen(PORT, () => {
     console.log(`Server at ${PORT}`);
