@@ -1,6 +1,5 @@
 const Order = require("../models/OrderModel");
 const Product = require("../models/ProductModel");
-const Costumer = require("../../costumers/models/CostumerModel")
 var ObjectID = require("bson-objectid");
 
 
