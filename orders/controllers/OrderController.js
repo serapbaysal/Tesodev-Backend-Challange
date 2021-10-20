@@ -1,11 +1,16 @@
 const Order = require("../models/OrderModel");
-const Product = require("../models/ProductModel")
+const Product = require("../models/ProductModel");
+const Costumer = require("../../costumers/models/CostumerModel")
 var ObjectID = require("bson-objectid");
 
+
+/*     POST :: http://localhost:5000/orders
+*/
 
 exports.Create = async (req, res) => {
     const { CostumerId, Quantity, Price, Status, AddressLine, City, Country, CityCode, ImageUrl, Name, CreatedAt, UpdatedAt } = req.body
     const _id = ObjectID();
+
     
 
     try {
@@ -52,6 +57,9 @@ exports.Create = async (req, res) => {
     }
 }
 
+
+/*     GET :: http://localhost:5000/orders
+*/
 exports.Get = async (req, res) => {
     try {
         const orders = await Order.find();
@@ -70,6 +78,9 @@ exports.Get = async (req, res) => {
 }
 
 
+
+/*     GET :: http://localhost:5000/orders/costumer/:id
+*/
 exports.GetOrdersByCostumerId = async (req, res) => {
     try {
         const costumerId = req.params.id;
@@ -89,6 +100,9 @@ exports.GetOrdersByCostumerId = async (req, res) => {
 
 }
 
+
+/*     GET :: http://localhost:5000/orders/:id
+*/
 exports.GetOrderById = async (req, res) => {
     try {
 
@@ -112,6 +126,9 @@ exports.GetOrderById = async (req, res) => {
     }
 }
 
+
+/*     PUT :: http://localhost:5000/orders/:id
+*/
 exports.Update = async (req, res) => {
 
     try {
@@ -119,23 +136,53 @@ exports.Update = async (req, res) => {
 
 
         const order = await Order.findByIdAndUpdate(id, req.body);
+        order.UpdatedAt = Date.now();
+        order.save();
 
+        const  ImageUrl = req.body.ImageUrl;
+        const Name = req.body.Name;
+
+        const productId = order.Product._id;
+      
+
+        if(Name || ImageUrl) {
+            const product = await Product.findByIdAndUpdate(productId, req.body);
+            
+        }
+        
         if (!order) {
-            return res.json(false)
+            return res.json({
+                message:"Order not found"
+            })
         } else {
             return res.json(true)
         }
 
     } catch (error) {
-        return res.json(false)
+        return res.json({
+            data:error
+        });
     }
 }
 
+
+/*     DELETE :: http://localhost:5000/orders/:id
+*/
 exports.Delete = async (req, res) => {
     try {
         const id = req.params.id;
 
-        const order = await Order.findByIdAndDelete(id);
+        
+
+        const order = await Order.findById(id);
+        const productId = order.Product._id;
+
+        const deletedOrder = await Order.findByIdAndDelete(id);
+
+        const product = await Product.findByIdAndDelete(productId);
+
+        
+        
 
         if (!order) {
             return res.json(false)
@@ -152,6 +199,9 @@ exports.Delete = async (req, res) => {
 
 }
 
+
+/*     PUT :: http://localhost:5000/orders/status/:id
+*/
 exports.ChangeStatus = async (req, res) => {
     try {
         const id = req.params.id;
@@ -162,9 +212,7 @@ exports.ChangeStatus = async (req, res) => {
         if (!order) {
             return res.json(false)
         } else {
-            return res.json({
-                data: order
-            })
+            return res.json(true)
         }
     } catch (error) {
         return res.json(false)

@@ -5,7 +5,7 @@ const mongoose = require("mongoose");
 
 const OrderSchema = new mongoose.Schema({
     CostumerId: [{
-        type: String,
+        type: ObjectID,
       
 
     }],
@@ -35,7 +35,7 @@ const OrderSchema = new mongoose.Schema({
             required: true
         },
         CityCode: {
-            type: String,
+            type: Number,
             required: true
         }
 
@@ -44,6 +44,7 @@ const OrderSchema = new mongoose.Schema({
     Product: {
         _id: {
             type: ObjectID,
+            required: true
             
         },
         ImageUrl: {
@@ -56,11 +57,12 @@ const OrderSchema = new mongoose.Schema({
         }
     },
     CreatedAt: {
-        type: String,
-        required: true
+        type: Date,
+        required: true,
+        default:Date.now()
     },
     UpdatedAt: {
-        type: String,
+        type: Date,
         required: true
     }
 })

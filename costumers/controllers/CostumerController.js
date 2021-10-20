@@ -2,8 +2,9 @@ const Costumer = require("../models/CostumerModel");
 const Address = require("../models/AddressModel");
 
 
+/*    POST :: http://localhost:5000/costumers
+*/
 
-let createdCostumer = ["Serap", "s.hotmail.com", "24.03.2021", "28.04.2021", "shkdf", "Ankara", "Turkey", "45"];
 exports.Create = async (req, res) => {
     const { Name, Email, UpdatedAt, CreatedAt, AddressLine, City, Country, CityCode } = req.body;
 
@@ -64,8 +65,8 @@ exports.Create = async (req, res) => {
 
 
 
-/*     GET
-       http:localhost:5002   */
+/*     GET :: http://localhost:5000/costumers
+*/
 exports.Get = async (req, res) => {
     try {
         const costumers = await Costumer.find();
@@ -83,6 +84,9 @@ exports.Get = async (req, res) => {
 
 }
 
+/*     GET :: http://localhost:5000/costumers/:id
+*/
+
 exports.GetById = async (req, res) => {
 
     try {
@@ -94,7 +98,7 @@ exports.GetById = async (req, res) => {
             return res.status(200).json({
                 data: costumer
             })
-        }else {
+        } else {
             return res.json(false);
         }
 
@@ -107,11 +111,16 @@ exports.GetById = async (req, res) => {
 
 }
 
+
+/*     PUT :: http://localhost:5000/costumers/:id
+*/
 exports.Update = async (req, res) => {
     try {
         const id = req.params.id;
 
         const costumer = await Costumer.findByIdAndUpdate(id, req.body);
+        costumer.UpdatedAt = Date.now();
+        costumer.save();
 
         if (!Validate(id)) {
             return res.json({
@@ -129,6 +138,9 @@ exports.Update = async (req, res) => {
 
 }
 
+
+/*     DELETE :: http://localhost:5000/costumers/:id
+*/
 exports.Delete = async (req, res) => {
     try {
         const costumer = await Costumer.findByIdAndDelete(req.params.id);
@@ -147,8 +159,8 @@ exports.Delete = async (req, res) => {
 }
 
 async function Validate(id) {
-    const costumerExist = await Costumer.exists({id});
-    
+    const costumerExist = await Costumer.exists({ id });
+
     if (!costumerExist) {
         return false;
     } else {

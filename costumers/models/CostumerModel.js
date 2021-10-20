@@ -32,11 +32,12 @@ const CostumerSchema = new mongoose.Schema({
 
     },
     CreatedAt: {
-        type: String,
-        required: true
+        type: Date,
+        required: true,
+        default:Date.now()
     },
     UpdatedAt: {
-        type: String,
+        type: Date,
         required: true
     }
 
