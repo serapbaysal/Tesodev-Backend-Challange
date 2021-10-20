@@ -5,7 +5,13 @@ const router = express.Router();
 
 
 const {
-    Create
+    Create,
+    Get,
+    GetOrdersByCostumerId,
+    GetOrderById,
+    Update,
+    Delete,
+    ChangeStatus
   
 } = require("../controllers/OrderController")
 
@@ -15,12 +21,21 @@ const {
 
 router
     .route("/")
+        .get(Get)
+        .post(Create)
       
 
 router
-    .route("/:id")
-        .post(Create)
+    .route("/costumer/:id")
+        .get(GetOrdersByCostumerId)
      
-
+router
+    .route("/:id")
+        .get(GetOrderById)
+        .put(Update)
+        .delete(Delete)
+router
+    .route("/status/:id")
+        .put(ChangeStatus)
 
 module.exports = router;

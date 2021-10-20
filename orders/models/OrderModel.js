@@ -1,13 +1,14 @@
+const { default: ObjectID } = require("bson-objectid");
 const mongoose = require("mongoose");
 
 
 
 const OrderSchema = new mongoose.Schema({
-    CostumerId: {
+    CostumerId: [{
         type: String,
       
 
-    },
+    }],
     Quantity: {
         type: Number,
         required: true
@@ -41,8 +42,8 @@ const OrderSchema = new mongoose.Schema({
 
     },
     Product: {
-        Id: {
-            type: String,
+        _id: {
+            type: ObjectID,
             
         },
         ImageUrl: {
